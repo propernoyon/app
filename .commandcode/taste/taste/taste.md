@@ -1,0 +1,17 @@
+# Taste
+- Prefers Next.js (App Router), TypeScript, React, and Tailwind CSS for web applications. Confidence: 0.85
+- Enforces strict tooling: TypeScript strict mode, ESLint, and Prettier. Confidence: 0.8
+- Dependency-minimal: evaluate whether native framework/React/Tailwind functionality covers a need before installing a library; avoid excessive dependencies. Confidence: 0.85
+- Server-first: Server Components by default, Client Components only where interaction truly requires it, minimizing client-side JavaScript. Confidence: 0.8
+- Security-first: secrets and API keys stay server-side and must never reach the browser, client bundle, or a `NEXT_PUBLIC_*` variable. Confidence: 0.8
+- API-driven and data-driven: don't hard-code or duplicate data, centralize API access in one layer, and isolate response-shape adaptation so upstream changes are absorbed in one place. Confidence: 0.7
+- Wants production-ready, polished results — explicitly rejects templates, demos, and "sample code"; expects the actual working application to be built. Confidence: 0.8
+- Verifies work before declaring it done: run lint, type checks, tests, and a production build, then fix the errors found. Confidence: 0.75
+- Expects accessibility, SEO, and mobile-first responsive design to be first-class build requirements, not afterthoughts. Confidence: 0.7
+- Works in explicit phases, agreeing on a written plan before implementation. Confidence: 0.65
+- Values high-quality documentation: a thorough README plus `docs/` covering API integration, architecture, and deployment. Confidence: 0.7
+- When asking how existing code/data works, wants a read-only trace and explanation with no code modifications unless explicitly requested; repeated "don't change any code, just confirm/tell me" requests confirm this. Confidence: 0.6
+- Tests the app on a real phone over the LAN (dev server reachable at the machine's LAN IP, e.g. `http://192.168.1.10:3000`), not only in a desktop browser — so LAN/mobile-device behaviour is part of "it works" and dev-server config (e.g. `allowedDevOrigins`) matters. Confidence: 0.55
+- Has opinions on brand/theme colour but revises them freely: rejected the original green, then rejected white + red ("not look good") — so no previously stated colour direction should be treated as settled. When giving visual direction he gives loose, high-level prompts and expects the agent to exercise its own design judgement and pick the best palette ("make a theme with best of best combination from yourself") rather than waiting for exact colours. Confidence: 0.6
+- Expects a standard, conventional UI with genuinely good UX — explicitly calls out that "every button, input field" must be correct, so interactive control states (variants, focus, invalid, disabled) and their contrast/legibility are part of "done", not extras. Confidence: 0.6
+- Reports problems by pasting raw error output verbatim (e.g. the Next.js error overlay / browser console error with type, message, stack trace and code frame) rather than describing symptoms — expects the error to be diagnosed at the root and addressed, including when the conclusion is "not a code bug". Confidence: 0.65

@@ -1,26 +1,226 @@
 @import "tailwindcss";
+@import "../styles/tokens.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@layer base {
+  /* Tailwind v4 defaults border-color to currentColor; anchor it to a token. */
+  *,
+  ::before,
+  ::after {
+    border-color: var(--mm-border);
+  }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    background-color: var(--mm-background);
+    color: var(--mm-foreground);
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* One consistent focus treatment everywhere, keyboard-only. */
+  :focus-visible {
+    outline: 2px solid var(--mm-ring);
+    outline-offset: 2px;
+  }
+
+  /* Form controls must not zoom on focus in mobile Safari. */
+  @media (max-width: 640px) {
+    input,
+    select,
+    textarea {
+      font-size: 16px;
+    }
+  }
+
+  ::selection {
+    background-color: var(--mm-selection);
+    color: var(--mm-selection-foreground);
+  }
+
+  /* Images and media never overflow their container. */
+  img,
+  video {
+    max-width: 100%;
+    height: auto;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  /* Utility for screens that hide siblings from assistive tech. */
+  .sr-only-focusable:not(:focus):not(:focus-within) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Respect the OS-level motion preference for every animation and transition. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes mm-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes mm-scale-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes mm-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mm-pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@keyframes mm-slide-in-right {
+  from {
+    opacity: 0.6;
+    transform: translateX(12%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes mm-slide-in-bottom {
+  from {
+    opacity: 0.6;
+    transform: translateY(14%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =============================================================================
+   Native <dialog> shell
+   A closed dialog must stay `display: none`, so layout is applied only to
+   `[open]`. Sizing/centring lives here; visual styling lives on `.mm-panel`.
+   ============================================================================= */
+
+dialog.mm-dialog:not([open]) {
+  display: none;
+}
+
+dialog.mm-dialog[open] {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  overflow: hidden;
+  animation: mm-fade-in 160ms var(--ease-out-soft);
+}
+
+dialog.mm-dialog[open]::backdrop {
+  background-color: var(--mm-overlay);
+  animation: mm-fade-in 160ms var(--ease-out-soft);
+}
+
+dialog.mm-dialog-center[open] {
+  place-items: center;
+  padding: 1rem;
+}
+
+dialog.mm-dialog-right[open] {
+  justify-items: end;
+}
+
+dialog.mm-dialog-bottom[open] {
+  align-items: end;
+}
+
+dialog.mm-dialog[open] .mm-panel {
+  animation: mm-scale-in 180ms var(--ease-out-soft);
+}
+
+dialog.mm-dialog-right[open] .mm-panel {
+  animation: mm-slide-in-right 200ms var(--ease-out-soft);
+}
+
+dialog.mm-dialog-bottom[open] .mm-panel {
+  animation: mm-slide-in-bottom 200ms var(--ease-out-soft);
+}
+
+/* Modal open: stop the page behind from scrolling. */
+html:has(dialog.mm-dialog[open]) {
+  overflow: hidden;
 }

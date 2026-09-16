@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Mini Mercado">
+  <rect width="512" height="512" rx="112" fill="#065cd7" />
+  <g fill="none" stroke="#ffffff" stroke-width="26" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M132 200h248l-22 148a38 38 0 0 1-37.5 32h-129A38 38 0 0 1 154 348z" />
+    <path d="M196 200v-22a60 60 0 0 1 120 0v22" />
+    <path d="M256 380V256m0 0 44-44m-44 44-44-44" stroke-width="22" />
+  </g>
+</svg>

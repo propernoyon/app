@@ -1,0 +1,417 @@
+/* =============================================================================
+   Mini Mercado — design tokens (single source of truth)
+   -----------------------------------------------------------------------------
+   Rules:
+   - Components must never hard-code colours, radii, shadows or motion values.
+     Everything resolves to a token defined here and surfaced to Tailwind via
+     `@theme`, so it is usable as `bg-brand-600`, `rounded-card`, `shadow-card`.
+   - Two layers:
+       1. `@theme`        → the palette and primitives. Identical in every theme.
+       2. `:root`/`.dark` → the *semantic* layer (`--mm-*`), swapped per theme.
+     The semantic names are re-exposed to Tailwind with `@theme inline`, which
+     makes utilities emit `var(--mm-*)` instead of a flattened literal — that is
+     what allows `.dark` to re-theme them at runtime.
+   - Adding a theme means overriding the `--mm-*` block below, never the palette.
+   ============================================================================= */
+
+/* `.dark` on <html> (set before paint by the bootstrap script) drives the
+   `dark:` variant, for the few places a token swap is not expressive enough. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* `static` keeps every palette variable in the output even when no utility
+   references it — the semantic layer below resolves them from plain CSS, which
+   Tailwind's usage scanner cannot see. */
+@theme static {
+  /* ── Brand: deep cobalt ────────────────────────────────────────────────────
+     A true blue at hue 255→264 — deliberately not the blue-violet that generic
+     generated UIs reach for, and not a pale "link blue" either. Chroma is capped
+     at what sRGB can actually hold at each lightness, so nothing is left to the
+     browser's out-of-gamut remapping. */
+  --color-brand-50: oklch(0.97 0.014 255);
+  --color-brand-100: oklch(0.935 0.031 255);
+  --color-brand-200: oklch(0.885 0.055 255);
+  --color-brand-300: oklch(0.815 0.092 254);
+  --color-brand-400: oklch(0.72 0.143 256);
+  --color-brand-500: oklch(0.62 0.19 258);
+  --color-brand-600: oklch(0.51 0.203 260);
+  --color-brand-700: oklch(0.45 0.19 261);
+  --color-brand-800: oklch(0.395 0.16 262);
+  --color-brand-900: oklch(0.345 0.13 263);
+  --color-brand-950: oklch(0.255 0.085 264);
+
+  /* ── Neutral: cool white (light theme surfaces) ────────────────────────────
+     Tinted a whisper toward the brand hue so the "white" surfaces belong to the
+     blue rather than sitting next to it as dead grey. Chroma stays at or under
+     0.012: enough to feel authored, never enough to look blue. */
+  --color-neutral-0: oklch(1 0 0);
+  --color-neutral-50: oklch(0.985 0.002 258);
+  --color-neutral-100: oklch(0.968 0.004 258);
+  --color-neutral-200: oklch(0.93 0.006 258);
+  --color-neutral-300: oklch(0.872 0.008 258);
+  --color-neutral-400: oklch(0.71 0.012 258);
+  --color-neutral-500: oklch(0.575 0.014 258);
+  --color-neutral-600: oklch(0.47 0.014 258);
+  --color-neutral-700: oklch(0.38 0.013 258);
+  --color-neutral-800: oklch(0.28 0.012 258);
+  --color-neutral-900: oklch(0.205 0.011 258);
+  --color-neutral-950: oklch(0.14 0.01 258);
+
+  /* ── Accent: promotional warm amber ───────────────────────────────────── */
+  --color-accent-100: oklch(0.955 0.04 85);
+  --color-accent-300: oklch(0.86 0.1 78);
+  --color-accent-500: oklch(0.75 0.155 68);
+  --color-accent-600: oklch(0.665 0.16 58);
+  --color-accent-700: oklch(0.565 0.14 50);
+
+  /* ── Type ─────────────────────────────────────────────────────────────── */
+  --font-sans:
+    var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  /* ── Radii ────────────────────────────────────────────────────────────── */
+  --radius-xs: 0.375rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.875rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.75rem;
+  --radius-card: 1rem;
+
+  /* ── Elevation (brand-tinted, never pure black) ───────────────────────── */
+  --shadow-xs: 0 1px 2px oklch(0.2 0.012 258 / 0.05);
+  --shadow-sm: 0 1px 3px oklch(0.2 0.012 258 / 0.07), 0 1px 2px oklch(0.2 0.012 258 / 0.04);
+  --shadow-card: 0 2px 8px -2px oklch(0.2 0.012 258 / 0.08), 0 1px 3px oklch(0.2 0.012 258 / 0.04);
+  --shadow-card-hover:
+    0 12px 28px -8px oklch(0.2 0.012 258 / 0.16), 0 4px 10px -4px oklch(0.2 0.012 258 / 0.08);
+  --shadow-pop:
+    0 16px 40px -12px oklch(0.2 0.012 258 / 0.22), 0 4px 12px -4px oklch(0.2 0.012 258 / 0.1);
+
+  /* ── Motion (purposeful, short, GPU-friendly) ─────────────────────────── */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* ── Layout ───────────────────────────────────────────────────────────── */
+  --spacing-header: 4rem;
+  --spacing-bottom-bar: 4.5rem;
+
+  /* ── Breakpoints ──────────────────────────────────────────────────────────
+     `xs` (400px) exists for one reason: a 44px-target quantity stepper needs
+     ~148px, which a 2-column product grid cannot provide below ~400px. It is
+     the only custom breakpoint; everything else uses the standard ladder. */
+  --breakpoint-xs: 25rem;
+}
+
+/* =============================================================================
+   Semantic layer — swapped per theme.
+   `--mm-*` are plain runtime custom properties, so `.dark` can override them.
+   ============================================================================= */
+
+:root {
+  color-scheme: light;
+
+  --mm-background: var(--color-neutral-50);
+  --mm-surface: var(--color-neutral-0);
+  --mm-card: var(--color-neutral-0);
+  --mm-border: var(--color-neutral-200);
+  /* Control boundaries — the checkbox, the outline button, the quantity stepper
+     and the resting text field all use one of these, so both must clear the
+     3:1 non-text contrast floor. `border` above stays light: it separates
+     content, it does not identify a control. */
+  --mm-border-strong: oklch(0.6 0.012 258);
+  --mm-input: oklch(0.66 0.012 258);
+  --mm-foreground: var(--color-neutral-900);
+  --mm-muted: var(--color-neutral-100);
+  /* Darkened from the palette's neutral-500 (L .575), which only reached
+     4.40:1 on white — under AA for the captions and secondary labels that use it. */
+  --mm-muted-foreground: oklch(0.55 0.014 258);
+  --mm-subtle-foreground: var(--color-neutral-600);
+  --mm-ring: var(--color-brand-500);
+  --mm-overlay: oklch(0.14 0.01 258 / 0.45);
+  --mm-skeleton: var(--color-neutral-200);
+  --mm-selection: var(--color-brand-200);
+  --mm-selection-foreground: var(--color-neutral-950);
+
+  --mm-primary: var(--color-brand-600);
+  --mm-primary-hover: var(--color-brand-700);
+  --mm-primary-active: var(--color-brand-800);
+  --mm-primary-muted: var(--color-brand-50);
+  --mm-primary-muted-hover: var(--color-brand-100);
+  /* Readable accent *text* on `primary-muted` (active nav, secondary button). */
+  --mm-primary-strong: var(--color-brand-800);
+  --mm-primary-border: var(--color-brand-200);
+  --mm-primary-foreground: var(--color-neutral-0);
+  /* Text on the solid brand panel (promo banner), which is the same blue in
+     both themes — so this stays white rather than following `primary-foreground`. */
+  --mm-on-brand: var(--color-neutral-0);
+  --mm-brand-surface: var(--color-brand-100);
+
+  --mm-accent: var(--color-accent-600);
+  --mm-accent-muted: var(--color-accent-100);
+  --mm-accent-foreground: var(--color-neutral-950);
+  /* Darker than the palette's accent-700 (L .565), which only reached 4.21:1 as
+     badge text on `accent-muted` — under AA. */
+  --mm-accent-strong: oklch(0.52 0.14 50);
+  --mm-accent-border: var(--color-accent-300);
+  --mm-on-accent: var(--color-neutral-950);
+
+  /* Status: each has a solid, a tinted surface, a border and readable text. */
+  --mm-success: oklch(0.585 0.135 152);
+  --mm-success-muted: oklch(0.955 0.03 152);
+  --mm-success-border: oklch(0.87 0.06 152);
+  --mm-success-foreground: oklch(0.44 0.105 152);
+  --mm-on-success: var(--color-neutral-0);
+
+  --mm-warning: oklch(0.72 0.16 70);
+  --mm-warning-muted: oklch(0.965 0.035 80);
+  --mm-warning-border: oklch(0.885 0.075 78);
+  --mm-warning-foreground: oklch(0.5 0.115 65);
+
+  /* Back on the conventional error red: the brand is blue now, so danger no
+     longer has to be pushed away from it. L .55 is the rung where white label
+     text on a solid destructive button clears 4.5:1. */
+  --mm-danger: oklch(0.55 0.2 25);
+  --mm-danger-muted: oklch(0.96 0.022 25);
+  --mm-danger-border: oklch(0.88 0.055 25);
+  --mm-danger-foreground: oklch(0.47 0.17 25);
+  --mm-on-danger: oklch(0.99 0 0);
+
+  /* Shifted off blue: the brand now owns ~258, so "info" moves to cyan (~200) to
+     stay a separate signal instead of reading as a second brand colour. */
+  --mm-info: oklch(0.58 0.11 200);
+  --mm-info-muted: oklch(0.965 0.025 200);
+  --mm-info-border: oklch(0.885 0.06 200);
+  --mm-info-foreground: oklch(0.45 0.1 200);
+
+  /* Native <select> chevron. A data-URI can't use `currentColor`, so the two
+     variants live here and the control just references the variable. */
+  --mm-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23737373' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+}
+
+/* Cool-grey dark theme. Surfaces are intentionally not pure black, and the
+   brand red lightens so it keeps contrast on dark backgrounds. */
+.dark {
+  color-scheme: dark;
+
+  --mm-background: oklch(0.185 0.006 264);
+  --mm-surface: oklch(0.235 0.007 264);
+  --mm-card: oklch(0.235 0.007 264);
+  --mm-border: oklch(0.32 0.008 264);
+  /* Same 3:1 control-boundary rule as the light theme. */
+  --mm-border-strong: oklch(0.58 0.009 264);
+  --mm-input: oklch(0.52 0.009 264);
+  --mm-foreground: oklch(0.965 0.003 264);
+  --mm-muted: oklch(0.285 0.008 264);
+  --mm-muted-foreground: oklch(0.735 0.011 264);
+  --mm-subtle-foreground: oklch(0.815 0.01 264);
+  --mm-ring: var(--color-brand-400);
+  --mm-overlay: oklch(0.1 0.005 264 / 0.7);
+  --mm-skeleton: oklch(0.3 0.008 264);
+  --mm-selection: oklch(0.42 0.085 258);
+  --mm-selection-foreground: oklch(0.98 0.005 258);
+
+  /* `--mm-primary` does double duty: it fills the solid button AND colours links
+     and accents sitting directly on the page. A rung dark enough to carry white
+     button text (#065cd7) only reaches 3.12:1 as link text on this background.
+     So the dark theme keeps the bright rung and uses a dark label on the button
+     (5.23:1) — the same trade the theme already made before the recolour.
+     Splitting into two tokens would fix it properly, but that means touching
+     every `text-primary` call site; noted rather than done. */
+  --mm-primary: var(--color-brand-500);
+  --mm-primary-hover: var(--color-brand-400);
+  --mm-primary-active: var(--color-brand-300);
+  --mm-primary-muted: oklch(0.285 0.045 258);
+  --mm-primary-muted-hover: oklch(0.33 0.055 258);
+  --mm-primary-strong: var(--color-brand-200);
+  --mm-primary-border: oklch(0.4 0.075 258);
+  --mm-primary-foreground: oklch(0.16 0.02 258);
+  --mm-on-brand: var(--color-neutral-0);
+  --mm-brand-surface: oklch(0.27 0.05 258);
+
+  --mm-accent: oklch(0.78 0.15 68);
+  --mm-accent-muted: oklch(0.3 0.055 62);
+  --mm-accent-foreground: oklch(0.16 0.02 60);
+  --mm-accent-strong: oklch(0.85 0.13 75);
+  --mm-accent-border: oklch(0.42 0.08 62);
+  --mm-on-accent: oklch(0.16 0.02 60);
+
+  --mm-success: oklch(0.63 0.13 152);
+  --mm-success-muted: oklch(0.27 0.045 152);
+  --mm-success-border: oklch(0.39 0.07 152);
+  --mm-success-foreground: oklch(0.83 0.12 152);
+  --mm-on-success: oklch(0.16 0.02 152);
+
+  --mm-warning: oklch(0.79 0.15 78);
+  --mm-warning-muted: oklch(0.3 0.055 70);
+  --mm-warning-border: oklch(0.42 0.08 70);
+  --mm-warning-foreground: oklch(0.87 0.12 80);
+
+  /* Conventional error red, back in step with the light theme. */
+  --mm-danger: oklch(0.56 0.19 25);
+  --mm-danger-muted: oklch(0.29 0.07 25);
+  --mm-danger-border: oklch(0.41 0.11 25);
+  --mm-danger-foreground: oklch(0.85 0.11 25);
+  --mm-on-danger: oklch(0.99 0 0);
+
+  --mm-info: oklch(0.64 0.11 200);
+  --mm-info-muted: oklch(0.28 0.05 200);
+  --mm-info-border: oklch(0.4 0.07 200);
+  --mm-info-foreground: oklch(0.85 0.1 200);
+
+  --mm-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23a1a1aa' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+}
+
+/* Re-expose the semantic layer to Tailwind. `inline` makes utilities emit
+   `var(--mm-*)`, so a `.dark` override actually reaches them. */
+@theme inline {
+  --color-background: var(--mm-background);
+  --color-surface: var(--mm-surface);
+  --color-card: var(--mm-card);
+  --color-border: var(--mm-border);
+  --color-border-strong: var(--mm-border-strong);
+  --color-input: var(--mm-input);
+  --color-foreground: var(--mm-foreground);
+  --color-muted: var(--mm-muted);
+  --color-muted-foreground: var(--mm-muted-foreground);
+  --color-subtle-foreground: var(--mm-subtle-foreground);
+  --color-ring: var(--mm-ring);
+  --color-overlay: var(--mm-overlay);
+  --color-skeleton: var(--mm-skeleton);
+
+  --color-primary: var(--mm-primary);
+  --color-primary-hover: var(--mm-primary-hover);
+  --color-primary-active: var(--mm-primary-active);
+  --color-primary-muted: var(--mm-primary-muted);
+  --color-primary-muted-hover: var(--mm-primary-muted-hover);
+  --color-primary-strong: var(--mm-primary-strong);
+  --color-primary-border: var(--mm-primary-border);
+  --color-primary-foreground: var(--mm-primary-foreground);
+  --color-on-brand: var(--mm-on-brand);
+  --color-brand-surface: var(--mm-brand-surface);
+
+  --color-accent: var(--mm-accent);
+  --color-accent-muted: var(--mm-accent-muted);
+  --color-accent-foreground: var(--mm-accent-foreground);
+  --color-accent-strong: var(--mm-accent-strong);
+  --color-accent-border: var(--mm-accent-border);
+  --color-on-accent: var(--mm-on-accent);
+
+  --color-success: var(--mm-success);
+  --color-success-muted: var(--mm-success-muted);
+  --color-success-border: var(--mm-success-border);
+  --color-success-foreground: var(--mm-success-foreground);
+  --color-on-success: var(--mm-on-success);
+
+  --color-warning: var(--mm-warning);
+  --color-warning-muted: var(--mm-warning-muted);
+  --color-warning-border: var(--mm-warning-border);
+  --color-warning-foreground: var(--mm-warning-foreground);
+
+  --color-danger: var(--mm-danger);
+  --color-danger-muted: var(--mm-danger-muted);
+  --color-danger-border: var(--mm-danger-border);
+  --color-danger-foreground: var(--mm-danger-foreground);
+  --color-on-danger: var(--mm-on-danger);
+
+  --color-info: var(--mm-info);
+  --color-info-muted: var(--mm-info-muted);
+  --color-info-border: var(--mm-info-border);
+  --color-info-foreground: var(--mm-info-foreground);
+}
+
+/* ── Semantic type scale ──────────────────────────────────────────────────── */
+
+@utility text-display {
+  font-size: clamp(2rem, 1.4rem + 3vw, 3.25rem);
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+@utility text-h1 {
+  font-size: clamp(1.75rem, 1.3rem + 2vw, 2.5rem);
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+@utility text-h2 {
+  font-size: clamp(1.375rem, 1.15rem + 1.2vw, 1.875rem);
+  line-height: 1.2;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+}
+
+@utility text-h3 {
+  font-size: 1.25rem;
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+@utility text-h4 {
+  font-size: 1.0625rem;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+@utility text-body {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+@utility text-body-lg {
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+@utility text-small {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+@utility text-caption {
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+@utility text-micro {
+  font-size: 0.6875rem;
+  line-height: 1.35;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ── Layout utilities ─────────────────────────────────────────────────────── */
+
+@utility container-page {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 80rem;
+  padding-inline: clamp(1rem, 4vw, 2rem);
+}
+
+@utility container-narrow {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 44rem;
+  padding-inline: clamp(1rem, 4vw, 2rem);
+}
+
+/* Bottom padding that clears the product page's fixed action bar (whose height
+   is published as `--mm-action-bar-height`), with a floor so the layout does not
+   change on screens where the bar is short or absent. */
+@utility pb-action-bar {
+  padding-bottom: max(7rem, calc(var(--mm-action-bar-height, 0px) + 1.5rem));
+}
+
+/* Sticky bars must clear iOS home indicator / notches. */
+@utility pb-safe {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
+@utility pt-safe {
+  padding-top: max(0.5rem, env(safe-area-inset-top));
+}

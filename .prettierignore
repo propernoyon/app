@@ -1,0 +1,10 @@
+.next/
+.next-docs/
+out/
+build/
+coverage/
+node_modules/
+data/
+.commandcode/
+package-lock.json
+next-env.d.ts

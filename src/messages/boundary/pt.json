@@ -1,0 +1,9 @@
+{
+  "errorTitle": "Algo correu mal",
+  "errorBody": "Ocorreu um erro inesperado ao carregar esta página. O seu carrinho está seguro.",
+  "retry": "Tentar novamente",
+  "goHome": "Ir para a página inicial",
+  "notFoundTitle": "Página não encontrada",
+  "notFoundBody": "Não encontrámos a página que procurava. Pode ter sido movida ou removida.",
+  "browseShop": "Ver a loja"
+}

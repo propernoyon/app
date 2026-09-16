@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "Shell(git:*)",
+      "Shell(node --version)",
+      "Shell(npm:*)",
+      "Shell(if:*)",
+      "Shell(else:*)",
+      "Shell(dir:*)",
+      "Shell(type:*)",
+      "Shell(findstr:*)",
+      "Shell(node -e \"const p=require('./node_modules/eslint-config-prettier/package.json'); console.log('prettier-config', p.version); console.log(Object.keys(p.exports||{}))\")",
+      "Shell(node -e \"const p=require('./node_modules/eslint-config-next/package.json'); console.log('next-config', p.version); console.log(Object.keys(p.exports||{}))\")",
+      "Shell(node -e \"console.log('eslint', require('./node_modules/eslint/package.json').version); console.log('vitest', require('./node_modules/vitest/package.json').version); console.log('prettier', require('./node_modules/prettier/package.json').version); console.log('zod', require('./node_modules/zod/package.json').version)\")",
+      "powershell",
+      "Shell(npx next typegen 2>&1)",
+      "Shell(npx tsc --noEmit 2>&1)",
+      "Shell(npx eslint . 2>&1)",
+      "Shell(npx prettier --write . 2 >& 1)",
+      "Shell(npx next typegen 2 >& 1)",
+      "Shell(npx tsc --noEmit 2 >& 1)",
+      "Shell(npx eslint . 2 >& 1)",
+      "Shell(npx next build 2>&1)",
+      "Shell(npx next build 2 >& 1)",
+      "Shell(npx vitest run 2 >& 1)",
+      "Shell(grep:*)",
+      "Shell(agent-browser:*)",
+      "Shell(set:*)",
+      "Shell(npx prettier --check . 2 >& 1)",
+      "Shell(echo:*)"
+    ],
+    "deny": [],
+    "defaultMode": "default"
+  }
+}

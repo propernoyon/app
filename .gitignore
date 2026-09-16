@@ -32,6 +32,10 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+
+# runtime data: product image mappings + optimized uploads (back these up on the server)
+/data/
 
 # vercel
 .vercel

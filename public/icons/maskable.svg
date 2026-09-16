@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Mini Mercado">
+  <!-- Maskable icon: artwork stays inside the 80% safe zone. -->
+  <rect width="512" height="512" fill="#065cd7" />
+  <g fill="none" stroke="#ffffff" stroke-width="20" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M162 214h188l-17 112a30 30 0 0 1-29.6 25.2H208.6A30 30 0 0 1 179 326z" />
+    <path d="M210 214v-17a46 46 0 0 1 92 0v17" />
+    <path d="M256 351v-94m0 0 33-33m-33 33-33-33" stroke-width="17" />
+  </g>
+</svg>
