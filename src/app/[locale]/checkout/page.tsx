@@ -64,7 +64,6 @@ export default async function CheckoutPage() {
     agreeAgeRequired: dict.checkout.agreeAgeRequired,
     stockWarning: dict.checkout.stockWarning,
     stockWarningHint: dict.checkout.stockWarningHint,
-    fixCart: dict.checkout.fixCart,
     errorTitle: dict.checkout.errorTitle,
     errorBody: dict.checkout.errorBody,
     emptyRedirect: dict.checkout.emptyRedirect,

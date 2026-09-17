@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import Link from "next/link";
 import { CheckCircle2, CreditCard, Store, Truck } from "lucide-react";
 
@@ -67,7 +67,6 @@ export interface CheckoutLabels {
   agreeAgeRequired: string;
   stockWarning: string;
   stockWarningHint: string;
-  fixCart: string;
   errorTitle: string;
   errorBody: string;
   emptyRedirect: string;
@@ -133,6 +132,28 @@ export function CheckoutForm({
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("cash");
 
   const ageRequired = hasAgeRestrictedLines(lines);
+
+  // The Server Action refuses to place an order it cannot fill, but the basket
+  // lives in this browser, so the correction has to happen here. The moment the
+  // issues come back, the affected lines drop to what is actually available: the
+  // summary re-prices, the cart reflects it, and the customer only has to confirm
+  // the smaller order. `toast` and `actions` are referentially stable, so this
+  // runs once per rejection and never on a plain re-render.
+  useEffect(() => {
+    if (state.status !== "stock") return;
+
+    const limits: Record<string, number> = {};
+    for (const issue of state.issues) {
+      limits[cartLineKey(issue.productId, issue.sellMode)] = issue.available;
+    }
+    actions.clamp(limits);
+
+    toast({
+      title: labels.stockWarning,
+      description: labels.stockWarningHint,
+      variant: "warning",
+    });
+  }, [state, actions, toast, labels.stockWarning, labels.stockWarningHint]);
 
   if (!hydrated) {
     return <div className="h-64 rounded-card border border-border bg-surface" aria-busy="true" />;
@@ -431,6 +452,7 @@ export function CheckoutForm({
 
               {state.status === "stock" ? (
                 <Alert variant="warning" title={labels.stockWarning}>
+                  <p className="mt-1">{labels.stockWarningHint}</p>
                   <ul className="mt-2 space-y-1">
                     {state.issues.map((issue) => {
                       const line = lines.find(
@@ -445,22 +467,6 @@ export function CheckoutForm({
                       );
                     })}
                   </ul>
-                  <div className="mt-3">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const limits: Record<string, number> = {};
-                        for (const issue of state.issues) {
-                          limits[cartLineKey(issue.productId, issue.sellMode)] = issue.available;
-                        }
-                        actions.clamp(limits);
-                        toast({ title: labels.stockWarning, variant: "warning" });
-                      }}
-                    >
-                      {labels.fixCart}
-                    </Button>
-                  </div>
                 </Alert>
               ) : null}
 

@@ -17,6 +17,11 @@ import { StockBadge } from "./stock-badge";
  * The single product card used by home, shop, category and the related-products
  * rail — same anatomy everywhere: image, category, name, price, stock, add.
  *
+ * Proportions are tuned for the 4-up desktop grid: a 4:3 image (not square, which
+ * made the tile needlessly tall), tight body padding and a `text-small` name keep
+ * the card compact, while the price and the 44px add-to-cart button stay the most
+ * prominent things in the body.
+ *
  * A Server Component, so prices are formatted on the server and no locale or
  * currency data is shipped to the browser. Only the add-to-cart control is
  * interactive.
@@ -29,7 +34,7 @@ export function ProductCard({
   href,
   cartHref,
   priority = false,
-  sizes = "(min-width: 1280px) 22vw, (min-width: 1024px) 30vw, (min-width: 400px) 45vw, 90vw",
+  sizes = "(min-width: 1024px) 300px, (min-width: 768px) 32vw, (min-width: 400px) 48vw, 90vw",
 }: {
   product: Product;
   dict: Dictionary;
@@ -66,6 +71,7 @@ export function ProductCard({
             alt=""
             sizes={sizes}
             priority={priority}
+            aspect="4/3"
             className={outOfStock ? "opacity-60 grayscale-[0.35]" : undefined}
           />
         </Link>
@@ -78,14 +84,14 @@ export function ProductCard({
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col gap-1.5 p-3.5 sm:p-4">
+      <div className="flex flex-1 flex-col gap-1 p-3">
         {product.category ? (
           <p className="truncate text-caption text-muted-foreground">{product.category.name}</p>
         ) : null}
 
         {/* Clamped so every card in a row is the same height, even with the
             longer Portuguese names. */}
-        <h3 className="line-clamp-2 text-body-lg leading-snug font-semibold text-foreground">
+        <h3 className="line-clamp-2 text-small leading-snug font-semibold text-foreground">
           <Link href={href} className="underline-offset-4 hover:underline">
             {product.name}
           </Link>
@@ -107,11 +113,11 @@ export function ProductCard({
           </div>
         ) : null}
 
-        <div className="mt-auto space-y-2.5 pt-2">
+        <div className="mt-auto space-y-2 pt-1.5">
           <div>
             <Price
               value={formatPrice(product.price, locale, currencyCode)}
-              size="lg"
+              size="md"
               suffix={unit ? `/ ${unit}` : null}
             />
             {soldByBox ? (

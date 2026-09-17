@@ -29,13 +29,13 @@ export function Skeleton({
 export function ProductCardSkeleton() {
   return (
     <div className="overflow-hidden rounded-card border border-border bg-card">
-      <Skeleton shape="media" className="rounded-none" />
-      <div className="space-y-3 p-4">
-        <Skeleton shape="text" className="w-3/4" />
+      <Skeleton shape="media" className="aspect-4/3 rounded-none" />
+      <div className="space-y-2 p-3">
         <Skeleton shape="text" className="h-3 w-1/3" />
-        <div className="flex items-center justify-between gap-3 pt-1">
+        <Skeleton shape="text" className="w-3/4" />
+        <div className="space-y-2 pt-1.5">
           <Skeleton shape="text" className="h-5 w-16" />
-          <Skeleton className="size-11 rounded-lg" />
+          <Skeleton className="h-11 w-full rounded-lg" />
         </div>
       </div>
     </div>
@@ -48,7 +48,7 @@ export function ProductGridSkeleton({ count = 8, label }: { count?: number; labe
       role="status"
       aria-label={label}
       // Must mirror ProductGrid exactly, or placeholders reflow on arrival.
-      className="grid grid-cols-1 gap-3 xs:grid-cols-2 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4"
+      className="grid grid-cols-1 gap-3 xs:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-5 xl:gap-6"
     >
       {Array.from({ length: count }, (_, index) => (
         <ProductCardSkeleton key={index} />
