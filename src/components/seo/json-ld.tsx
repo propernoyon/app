@@ -101,6 +101,8 @@ export function OrganizationJsonLd({ locale, siteName }: { locale: Locale; siteN
     "@type": "GroceryStore",
     name: siteName,
     url: absoluteUrl(localePath(locale, "/")),
+    logo: absoluteUrl("/images/logo.png"),
+    image: absoluteUrl("/images/logo.png"),
     ...(storeConfig.phone ? { telephone: storeConfig.phone } : {}),
     ...(storeConfig.email ? { email: storeConfig.email } : {}),
     ...(storeConfig.address

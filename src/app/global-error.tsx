@@ -31,20 +31,20 @@ export default function GlobalError({
         <style>{`
           :root {
             color-scheme: light;
-            --ge-bg: #fbfbfd;
-            --ge-fg: #1c1f26;
-            --ge-muted: #5f6470;
-            --ge-brand: #065cd7;
+            --ge-bg: #fcfbf2;
+            --ge-fg: #14242c;
+            --ge-muted: #5f6e78;
+            --ge-brand: #516393;
             --ge-on-brand: #ffffff;
           }
           @media (prefers-color-scheme: dark) {
             :root {
               color-scheme: dark;
-              --ge-bg: #14161a;
-              --ge-fg: #eceef1;
-              --ge-muted: #a2a8b2;
-              --ge-brand: #3082f6;
-              --ge-on-brand: #06152e;
+              --ge-bg: #14161c;
+              --ge-fg: #e9ebef;
+              --ge-muted: #a7acb5;
+              --ge-brand: #6e80af;
+              --ge-on-brand: #0a0f1d;
             }
           }
         `}</style>

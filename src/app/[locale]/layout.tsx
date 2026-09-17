@@ -33,8 +33,8 @@ export const viewport: Viewport = {
   // in on mobile. A meta tag can only follow the OS preference, not the user's
   // explicit theme choice — the bootstrap script handles the document itself.
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fbfbfd" },
-    { media: "(prefers-color-scheme: dark)", color: "#14161a" },
+    { media: "(prefers-color-scheme: light)", color: "#fcfbf2" },
+    { media: "(prefers-color-scheme: dark)", color: "#14161c" },
   ],
 };
 

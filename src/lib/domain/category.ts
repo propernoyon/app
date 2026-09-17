@@ -29,5 +29,5 @@ export function safeCategoryColor(color: string | null | undefined): string {
   if (typeof color === "string" && /^#[0-9a-fA-F]{6}$/.test(color.trim())) {
     return color.trim();
   }
-  return "#065cd7";
+  return "#516393";
 }

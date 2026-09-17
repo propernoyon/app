@@ -22,39 +22,40 @@
    references it — the semantic layer below resolves them from plain CSS, which
    Tailwind's usage scanner cannot see. */
 @theme static {
-  /* ── Brand: deep cobalt ────────────────────────────────────────────────────
-     A true blue at hue 255→264 — deliberately not the blue-violet that generic
-     generated UIs reach for, and not a pale "link blue" either. Chroma is capped
-     at what sRGB can actually hold at each lightness, so nothing is left to the
-     browser's out-of-gamut remapping. */
-  --color-brand-50: oklch(0.97 0.014 255);
-  --color-brand-100: oklch(0.935 0.031 255);
-  --color-brand-200: oklch(0.885 0.055 255);
-  --color-brand-300: oklch(0.815 0.092 254);
-  --color-brand-400: oklch(0.72 0.143 256);
-  --color-brand-500: oklch(0.62 0.19 258);
-  --color-brand-600: oklch(0.51 0.203 260);
-  --color-brand-700: oklch(0.45 0.19 261);
-  --color-brand-800: oklch(0.395 0.16 262);
-  --color-brand-900: oklch(0.345 0.13 263);
-  --color-brand-950: oklch(0.255 0.085 264);
+  /* ── Brand: dusty periwinkle ───────────────────────────────────────────────
+     A slate blue at hue 268, chroma capped at 0.08. That cap is the whole
+     character of the palette: at 0.20 this same hue is a vivid cobalt, and the
+     reference UI is emphatically not that — its blues are muted and dusty. */
+  --color-brand-50: oklch(0.975 0.008 268);
+  --color-brand-100: oklch(0.943 0.019 268);
+  --color-brand-200: oklch(0.895 0.034 268);
+  --color-brand-300: oklch(0.825 0.05 268);
+  --color-brand-400: oklch(0.725 0.065 268);
+  --color-brand-500: oklch(0.605 0.075 268);
+  --color-brand-600: oklch(0.505 0.08 268);
+  --color-brand-700: oklch(0.445 0.075 268);
+  --color-brand-800: oklch(0.385 0.065 268);
+  --color-brand-900: oklch(0.325 0.055 268);
+  --color-brand-950: oklch(0.245 0.042 268);
 
-  /* ── Neutral: cool white (light theme surfaces) ────────────────────────────
-     Tinted a whisper toward the brand hue so the "white" surfaces belong to the
-     blue rather than sitting next to it as dead grey. Chroma stays at or under
-     0.012: enough to feel authored, never enough to look blue. */
+  /* ── Neutral: cream paper → navy ink ───────────────────────────────────────
+     The middle of the ladder is near-achromatic (chroma ≤ 0.024) so no mid-grey
+     ever picks up a cast. Only the two ends are tinted, and they carry the
+     theme's temperature: neutral-50 is the warm cream page, neutral-900/950 the
+     cool navy body ink. Warm surfaces under cool ink is the pairing the whole
+     recolour is built on. */
   --color-neutral-0: oklch(1 0 0);
-  --color-neutral-50: oklch(0.985 0.002 258);
-  --color-neutral-100: oklch(0.968 0.004 258);
-  --color-neutral-200: oklch(0.93 0.006 258);
-  --color-neutral-300: oklch(0.872 0.008 258);
-  --color-neutral-400: oklch(0.71 0.012 258);
-  --color-neutral-500: oklch(0.575 0.014 258);
-  --color-neutral-600: oklch(0.47 0.014 258);
-  --color-neutral-700: oklch(0.38 0.013 258);
-  --color-neutral-800: oklch(0.28 0.012 258);
-  --color-neutral-900: oklch(0.205 0.011 258);
-  --color-neutral-950: oklch(0.14 0.01 258);
+  --color-neutral-50: oklch(0.986 0.012 104);
+  --color-neutral-100: oklch(0.963 0.004 250);
+  --color-neutral-200: oklch(0.922 0.004 250);
+  --color-neutral-300: oklch(0.87 0.005 252);
+  --color-neutral-400: oklch(0.712 0.008 254);
+  --color-neutral-500: oklch(0.575 0.011 256);
+  --color-neutral-600: oklch(0.47 0.014 256);
+  --color-neutral-700: oklch(0.38 0.019 250);
+  --color-neutral-800: oklch(0.29 0.024 244);
+  --color-neutral-900: oklch(0.25 0.026 231);
+  --color-neutral-950: oklch(0.18 0.026 240);
 
   /* ── Accent: promotional warm amber ───────────────────────────────────── */
   --color-accent-100: oklch(0.955 0.04 85);
@@ -118,16 +119,17 @@
      and the resting text field all use one of these, so both must clear the
      3:1 non-text contrast floor. `border` above stays light: it separates
      content, it does not identify a control. */
-  --mm-border-strong: oklch(0.6 0.012 258);
-  --mm-input: oklch(0.66 0.012 258);
+  --mm-border-strong: oklch(0.6 0.02 240);
+  --mm-input: oklch(0.64 0.02 240);
   --mm-foreground: var(--color-neutral-900);
   --mm-muted: var(--color-neutral-100);
-  /* Darkened from the palette's neutral-500 (L .575), which only reached
-     4.40:1 on white — under AA for the captions and secondary labels that use it. */
-  --mm-muted-foreground: oklch(0.55 0.014 258);
+  /* Sits at 5.07:1 on the cream page and 5.27:1 on a white card. The palette's
+     neutral-500 (L .575) only cleared 4.4:1 once the background stopped being
+     pure white, which is under AA for the captions that use this. */
+  --mm-muted-foreground: oklch(0.53 0.024 236);
   --mm-subtle-foreground: var(--color-neutral-600);
   --mm-ring: var(--color-brand-500);
-  --mm-overlay: oklch(0.14 0.01 258 / 0.45);
+  --mm-overlay: oklch(0.16 0.02 242 / 0.45);
   --mm-skeleton: var(--color-neutral-200);
   --mm-selection: var(--color-brand-200);
   --mm-selection-foreground: var(--color-neutral-950);
@@ -176,7 +178,7 @@
   --mm-danger-foreground: oklch(0.47 0.17 25);
   --mm-on-danger: oklch(0.99 0 0);
 
-  /* Shifted off blue: the brand now owns ~258, so "info" moves to cyan (~200) to
+  /* Shifted off blue: the brand now owns ~268, so "info" moves to cyan (~200) to
      stay a separate signal instead of reading as a second brand colour. */
   --mm-info: oklch(0.58 0.11 200);
   --mm-info-muted: oklch(0.965 0.025 200);
@@ -185,48 +187,46 @@
 
   /* Native <select> chevron. A data-URI can't use `currentColor`, so the two
      variants live here and the control just references the variable. */
-  --mm-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23737373' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+  --mm-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23828e97' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
 }
 
-/* Cool-grey dark theme. Surfaces are intentionally not pure black, and the
-   brand red lightens so it keeps contrast on dark backgrounds. */
+/* Navy dark theme — the light theme's cool ink turned into a surface. The same
+   hue family carries both themes: cream paper becomes a deep navy page, and the
+   dusty periwinkle brand lightens so it keeps contrast on it. */
 .dark {
   color-scheme: dark;
 
-  --mm-background: oklch(0.185 0.006 264);
-  --mm-surface: oklch(0.235 0.007 264);
-  --mm-card: oklch(0.235 0.007 264);
-  --mm-border: oklch(0.32 0.008 264);
+  --mm-background: oklch(0.201 0.012 266);
+  --mm-surface: oklch(0.243 0.015 262);
+  --mm-card: oklch(0.243 0.015 262);
+  --mm-border: oklch(0.304 0.018 262);
   /* Same 3:1 control-boundary rule as the light theme. */
-  --mm-border-strong: oklch(0.58 0.009 264);
-  --mm-input: oklch(0.52 0.009 264);
-  --mm-foreground: oklch(0.965 0.003 264);
-  --mm-muted: oklch(0.285 0.008 264);
-  --mm-muted-foreground: oklch(0.735 0.011 264);
-  --mm-subtle-foreground: oklch(0.815 0.01 264);
+  --mm-border-strong: oklch(0.58 0.016 264);
+  --mm-input: oklch(0.52 0.015 264);
+  --mm-foreground: oklch(0.94 0.006 264);
+  --mm-muted: oklch(0.285 0.014 264);
+  --mm-muted-foreground: oklch(0.742 0.015 264);
+  --mm-subtle-foreground: oklch(0.82 0.013 264);
   --mm-ring: var(--color-brand-400);
-  --mm-overlay: oklch(0.1 0.005 264 / 0.7);
-  --mm-skeleton: oklch(0.3 0.008 264);
-  --mm-selection: oklch(0.42 0.085 258);
-  --mm-selection-foreground: oklch(0.98 0.005 258);
+  --mm-overlay: oklch(0.12 0.012 264 / 0.7);
+  --mm-skeleton: oklch(0.3 0.014 264);
+  --mm-selection: oklch(0.42 0.055 268);
+  --mm-selection-foreground: oklch(0.97 0.008 268);
 
   /* `--mm-primary` does double duty: it fills the solid button AND colours links
-     and accents sitting directly on the page. A rung dark enough to carry white
-     button text (#065cd7) only reaches 3.12:1 as link text on this background.
-     So the dark theme keeps the bright rung and uses a dark label on the button
-     (5.23:1) — the same trade the theme already made before the recolour.
-     Splitting into two tokens would fix it properly, but that means touching
-     every `text-primary` call site; noted rather than done. */
+     and accents sitting directly on the page. brand-500 works for both here —
+     4.62:1 as link text on this background, and its button label is dark rather
+     than white (4.89:1), because white on it only reaches 3.91:1. */
   --mm-primary: var(--color-brand-500);
   --mm-primary-hover: var(--color-brand-400);
   --mm-primary-active: var(--color-brand-300);
-  --mm-primary-muted: oklch(0.285 0.045 258);
-  --mm-primary-muted-hover: oklch(0.33 0.055 258);
+  --mm-primary-muted: oklch(0.285 0.04 268);
+  --mm-primary-muted-hover: oklch(0.335 0.048 268);
   --mm-primary-strong: var(--color-brand-200);
-  --mm-primary-border: oklch(0.4 0.075 258);
-  --mm-primary-foreground: oklch(0.16 0.02 258);
+  --mm-primary-border: oklch(0.4 0.055 268);
+  --mm-primary-foreground: oklch(0.17 0.03 268);
   --mm-on-brand: var(--color-neutral-0);
-  --mm-brand-surface: oklch(0.27 0.05 258);
+  --mm-brand-surface: oklch(0.27 0.04 268);
 
   --mm-accent: oklch(0.78 0.15 68);
   --mm-accent-muted: oklch(0.3 0.055 62);
@@ -258,7 +258,7 @@
   --mm-info-border: oklch(0.4 0.07 200);
   --mm-info-foreground: oklch(0.85 0.1 200);
 
-  --mm-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23a1a1aa' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+  --mm-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23a7acb5' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
 }
 
 /* Re-expose the semantic layer to Tailwind. `inline` makes utilities emit

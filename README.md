@@ -137,7 +137,7 @@ src/
     dev/ui/                   # dev-only styleguide (404 in production)
     api/                      # route handlers (image serving, admin upload)
     actions/                  # Server Actions (checkout, admin sign-in)
-    sitemap.ts  robots.ts  manifest.ts  global-error.tsx  icon.svg
+    sitemap.ts  robots.ts  manifest.ts  global-error.tsx  icon.png  apple-icon.png
   components/{ui,layout,product,cart,checkout,category,home,order,admin,seo,pwa}/
   lib/
     api/                      # client, schemas, normalize, services, mock

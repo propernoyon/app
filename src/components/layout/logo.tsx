@@ -1,20 +1,24 @@
+import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils/cn";
 
 /**
- * Brand lockup: a monogram mark plus the store name. Deliberately typographic
- * (no raster logo) so it stays crisp at any size and costs nothing to load.
+ * Brand lockup: the store logo mark plus the store name. The mark is served
+ * through `next/image` so it is resized and re-encoded per device density
+ * instead of shipping the 727px source to every visitor.
  */
 export function Logo({
   name,
   href,
   className,
   showName = true,
+  eager = false,
 }: {
   name: string;
   href: string;
   className?: string;
   showName?: boolean;
+  eager?: boolean;
 }) {
   return (
     <Link
@@ -28,28 +32,16 @@ export function Logo({
     >
       <span
         aria-hidden="true"
-        className="grid size-9 shrink-0 place-items-center rounded-xl bg-primary text-primary-foreground shadow-xs"
+        className="relative size-9 shrink-0 overflow-hidden rounded-lg shadow-xs sm:size-10"
       >
-        <svg viewBox="0 0 24 24" className="size-5" fill="none" aria-hidden="true">
-          <path
-            d="M4 9.5h16l-1.4 8.2A2.5 2.5 0 0 1 16.13 20H7.87a2.5 2.5 0 0 1-2.47-2.3L4 9.5Z"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M8.5 9.5V8a3.5 3.5 0 0 1 7 0v1.5"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-          />
-          <path
-            d="M12 19v-5.5m0 0 2.2-2.2M12 13.5 9.8 11.3"
-            stroke="currentColor"
-            strokeWidth="1.6"
-            strokeLinecap="round"
-          />
-        </svg>
+        <Image
+          src="/images/logo.png"
+          alt=""
+          fill
+          loading={eager ? "eager" : "lazy"}
+          sizes="(min-width: 640px) 40px, 36px"
+          className="object-cover"
+        />
       </span>
       {showName ? (
         <span className="truncate text-h4 leading-none font-bold tracking-tight text-foreground">

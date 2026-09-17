@@ -52,7 +52,7 @@ export async function Header() {
           locale={locale}
         />
 
-        <Logo name={storeConfig.name} href={href("/")} />
+        <Logo name={storeConfig.name} href={href("/")} eager />
 
         <nav aria-label={dict.common.menu} className="ml-2 hidden lg:block">
           <NavLinks items={navItems} />

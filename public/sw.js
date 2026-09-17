@@ -18,20 +18,20 @@ const OFFLINE_HTML = `<!doctype html>
     <style>
       :root {
         color-scheme: light;
-        --off-bg: #fbfbfd;
-        --off-fg: #1c1f26;
-        --off-muted: #5f6470;
-        --off-brand: #065cd7;
+        --off-bg: #fcfbf2;
+        --off-fg: #14242c;
+        --off-muted: #5f6e78;
+        --off-brand: #516393;
         --off-on-brand: #ffffff;
       }
       @media (prefers-color-scheme: dark) {
         :root {
           color-scheme: dark;
-          --off-bg: #14161a;
-          --off-fg: #eceef1;
-          --off-muted: #a2a8b2;
-          --off-brand: #3082f6;
-          --off-on-brand: #06152e;
+          --off-bg: #14161c;
+          --off-fg: #e9ebef;
+          --off-muted: #a7acb5;
+          --off-brand: #6e80af;
+          --off-on-brand: #0a0f1d;
         }
       }
       body {
