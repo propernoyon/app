@@ -17,19 +17,28 @@ const LABELS: (dict: Dictionary) => Record<StockStatus, string> = (dict) => ({
   unknown: dict.product.stock.unknown,
 });
 
-/** One stock vocabulary everywhere: In stock / Low stock / Out of stock. */
+/**
+ * One stock vocabulary everywhere: In stock / Low stock / Out of stock.
+ *
+ * `quantity` is the *pre-formatted* available count — formatting belongs on the
+ * server, like prices. It is appended after the label and omitted entirely when
+ * unknown or zero, so the badge never reads “Out of stock · 0”.
+ */
 export function StockBadge({
   status,
   dict,
   size = "sm",
+  quantity,
 }: {
   status: StockStatus;
   dict: Dictionary;
   size?: "sm" | "md";
+  quantity?: string | null;
 }) {
   return (
     <Badge variant={TONE_TO_BADGE[STOCK_STATUS_TONE[status]]} dot size={size}>
       {LABELS(dict)[status]}
+      {quantity ? <span className="font-normal tabular-nums">· {quantity}</span> : null}
     </Badge>
   );
 }

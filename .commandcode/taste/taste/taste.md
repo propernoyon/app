@@ -26,3 +26,4 @@
 - Expects the existing implementation to be inspected/read first before changes are made, rather than editing blind. Confidence: 0.6
 - Treats confirming the layout in a real browser at specific desktop viewport widths (calls out 1440px and 1920px) as part of the acceptance criteria for responsive UI work. Confidence: 0.6
 - On e-commerce ordering, expects availability to be re-checked at the moment the order is confirmed, and any shortfall to be handled by automatically adjusting the cart and showing a clear warning — not by blocking the customer or making him perform a manual "fix" step. Confidence: 0.5
+- Points at the target of a change by pasting the exact existing snippet verbatim — e.g. a component's full Tailwind className string followed by a terse "in here need to show X" — expecting the agent to locate the element and edit it in place, rather than describing the location or giving a file path. Confidence: 0.5

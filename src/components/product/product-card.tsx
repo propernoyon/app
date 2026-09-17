@@ -8,7 +8,7 @@ import { displayUnit } from "@/lib/domain/unit";
 import { isOutOfStock, type Product } from "@/lib/domain/product";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
-import { formatPrice } from "@/lib/i18n/formats";
+import { formatNumber, formatPrice } from "@/lib/i18n/formats";
 import { AddToCartControl, type AddToCartLabels } from "./add-to-cart";
 import { ProductImage } from "./product-image";
 import { StockBadge } from "./stock-badge";
@@ -49,6 +49,14 @@ export function ProductCard({
   const outOfStock = isOutOfStock(product);
   const soldByBox = product.boxPrice > 0 && product.sellType !== "piece";
 
+  // The badge only claims a count when its label agrees with it: never
+  // “Out of stock · 0”, and never a quantity we do not actually have.
+  const stocked = product.stock.status === "in_stock" || product.stock.status === "low_stock";
+  const stockQuantity =
+    stocked && product.stock.qty > 0
+      ? `${formatNumber(product.stock.qty, locale)}${unit ? ` ${unit}` : ""}`
+      : null;
+
   const labels: AddToCartLabels = {
     addToCart: dict.common.addToCart,
     outOfStock: dict.product.outOfStock,
@@ -80,7 +88,7 @@ export function ProductCard({
             overlay collided on narrow tiles, so secondary badges moved into the
             body where there is room for them. */}
         <div className="pointer-events-none absolute inset-x-2 top-2 flex items-start">
-          <StockBadge status={product.stock.status} dict={dict} />
+          <StockBadge status={product.stock.status} dict={dict} quantity={stockQuantity} />
         </div>
       </div>
 
